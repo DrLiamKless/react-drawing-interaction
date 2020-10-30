@@ -43,6 +43,29 @@ class Circle implements Drawable {
     }
 }
 
+class Square implements Drawable {
+    edge: number;
+    constructor(private center: Point, edgeToPoint: Point) {
+        const sumSquares = (center.x - edgeToPoint.x) + (center.y - edgeToPoint.y)
+        this.edge = sumSquares + sumSquares;
+    }
+
+    draw(context: CanvasRenderingContext2D, opt: DrawOptions) {
+        const options: DrawOptions = {
+            strokeStyle: "red",
+            lineJoin: "bevel",
+            lineWidth: 5
+        }
+        context.lineWidth = options.lineWidth;
+        context.strokeStyle = options.strokeStyle;
+        context.lineJoin = options.lineJoin;    
+    
+        context.beginPath();
+        context.rect(this.center.x, this.center.y, this.edge, this.edge);
+        context.stroke();
+    }
+}
+
 class Line implements Drawable {
     constructor(private pointA: Point, private pointB: Point) {
     }
@@ -180,8 +203,8 @@ const Canvas = ({ width, height }: CanvasProps) => {
             lineJoin: 'round',
             lineWidth: 1,
         }
-        const circle = new Circle(startPoint, endPoint);
-        circle.draw(context, drawOptions);
+        const square = new Square(startPoint, endPoint);
+        square.draw(context, drawOptions);
         // const line = new Line(startPoint, endPoint);
         // line.draw(context, drawOptions);
     };
